@@ -34,7 +34,18 @@ resources:
       items:
         - key: gce-container-declaration
           value: |
-            {{ imports[properties['containerManifest']]|indent(12) }}
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              name: simple-echo
+            spec:
+              containers:
+                - name: simple-echo
+                  image: gcr.io/google-samples/hello-app:2.0
+                  imagePullPolicy: Always
+                  ports:
+                    - containerPort: 8080
+                      hostPort: 8080
     disks:
       - deviceName: boot
         type: PERSISTENT
@@ -53,4 +64,3 @@ resources:
         scopes:
         - https://www.googleapis.com/auth/logging.write
         - https://www.googleapis.com/auth/monitoring.write
-
